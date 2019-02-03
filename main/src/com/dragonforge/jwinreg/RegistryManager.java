@@ -32,6 +32,29 @@ public class RegistryManager
 	}
 	
 	/**
+	 * Delete the parameter from registry.
+	 * 
+	 * @param path
+	 *            The path to the registry key.
+	 * @param key
+	 *            The key to do delete.
+	 */
+	public static void deletePath(String path)
+	{
+		try
+		{
+			Process process = Runtime.getRuntime().exec("reg delete \"" + path + "\"");
+			
+			process.getOutputStream().write("y\n".getBytes());
+			process.getOutputStream().flush();
+			
+			process.waitFor();
+		} catch(Exception e)
+		{
+		}
+	}
+	
+	/**
 	 * Write the parameter to the registry.
 	 * 
 	 * @param entry

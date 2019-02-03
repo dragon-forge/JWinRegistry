@@ -10,6 +10,12 @@ public class TestWinRegistry
 {
 	public static void main(String[] args)
 	{
-		RegistryManager.write(new RegistryEntry<>(new RegistryPath(RegistryRoot.HKEY_CURRENT_USER).append("Software").append("JWinRegistry"), "TestMain", RegistryType.REG_SZ, "This really works!"), true);
+		RegistryPath path = new RegistryPath(RegistryRoot.HKEY_CURRENT_USER).append("Software").append("JWinRegistry");
+		
+		RegistryManager.write(new RegistryEntry<>(path, "TestMain", RegistryType.REG_SZ, "This really works!"), true);
+		
+		System.out.println(RegistryManager.read(path.toString(), "TestMain"));
+		
+		RegistryManager.deletePath(path.toString());
 	}
 }

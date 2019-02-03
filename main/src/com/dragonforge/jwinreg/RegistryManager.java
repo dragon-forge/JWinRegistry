@@ -49,8 +49,6 @@ public class RegistryManager
 	 * 
 	 * @param path
 	 *            The path to the registry key.
-	 * @param key
-	 *            The key to do delete.
 	 */
 	public static void deletePath(RegistryPath path)
 	{
@@ -62,8 +60,6 @@ public class RegistryManager
 	 * 
 	 * @param path
 	 *            The path to the registry key.
-	 * @param key
-	 *            The key to do delete.
 	 */
 	public static void deletePath(String path)
 	{
@@ -111,6 +107,7 @@ public class RegistryManager
 	 *            The path to the registry key.
 	 * @param key
 	 *            The key to do delete.
+	 * @return The queried entry, or null, if entry does not exist.
 	 */
 	public static RegistryEntry<?> read(RegistryPath path, String key)
 	{
@@ -124,6 +121,7 @@ public class RegistryManager
 	 *            The path to the registry key.
 	 * @param key
 	 *            The key to do delete.
+	 * @return The queried entry, or null, if entry does not exist.
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static RegistryEntry<?> read(String path, String key)

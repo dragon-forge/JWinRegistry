@@ -1,4 +1,4 @@
-package com.dragonforge.winregistry;
+package com.dragonforge.jwinreg;
 
 import com.dragonforge.jwinreg.RegistryEntry;
 import com.dragonforge.jwinreg.RegistryManager;

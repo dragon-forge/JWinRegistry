@@ -16,6 +16,19 @@ public class RegistryManager
 	 * @param key
 	 *            The key to do delete.
 	 */
+	public static void deleteParam(RegistryPath path, String key)
+	{
+		deleteParam(path.toString(), key);
+	}
+	
+	/**
+	 * Delete the parameter from registry.
+	 * 
+	 * @param path
+	 *            The path to the registry key.
+	 * @param key
+	 *            The key to do delete.
+	 */
 	public static void deleteParam(String path, String key)
 	{
 		try
@@ -29,6 +42,19 @@ public class RegistryManager
 		} catch(Exception e)
 		{
 		}
+	}
+	
+	/**
+	 * Delete the parameter from registry.
+	 * 
+	 * @param path
+	 *            The path to the registry key.
+	 * @param key
+	 *            The key to do delete.
+	 */
+	public static void deletePath(RegistryPath path)
+	{
+		deletePath(path.toString());
 	}
 	
 	/**
@@ -76,6 +102,19 @@ public class RegistryManager
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Read the parameter from registry.
+	 * 
+	 * @param path
+	 *            The path to the registry key.
+	 * @param key
+	 *            The key to do delete.
+	 */
+	public static RegistryEntry<?> read(RegistryPath path, String key)
+	{
+		return read(path.toString(), key);
 	}
 	
 	/**

@@ -1,7 +1,10 @@
 package com.dragonforge.jwinreg;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A basic windows wrapper for registry management through Java.
@@ -88,7 +91,25 @@ public class RegistryManager
 	{
 		try
 		{
-			Process process = Runtime.getRuntime().exec("reg add \"" + entry.path + "\" /v \"" + entry.key + (entry.type != null ? ("\" /t \"" + entry.type.getId()) : "") + "\" /d \"" + entry.stringValue() + "\"");
+			List<String> args = new ArrayList<>();
+			args.add("reg");
+			args.add("add");
+			args.add("\"" + entry.path + "\"");
+			if(entry.defaultName)
+				args.add("/ve");
+			else
+			{
+				args.add("/v");
+				args.add("\"" + entry.key + "\"");
+			}
+			if(entry.type != null)
+			{
+				args.add("/t");
+				args.add(entry.type.getId());
+			}
+			args.add("/d");
+			args.add("\"" + entry.stringValue() + "\"");
+			Process process = new ProcessBuilder(args).start();
 			
 			process.getOutputStream().write((overwrite ? "y\n" : "n\n").getBytes());
 			process.getOutputStream().flush();
@@ -119,34 +140,60 @@ public class RegistryManager
 	 * 
 	 * @param path
 	 *            The path to the registry key.
+	 * @return The queried default entry, or null, if entry does not exist.
+	 */
+	public static RegistryEntry<?> readDefault(RegistryPath path)
+	{
+		return read(path.toString(), null, true);
+	}
+	
+	/**
+	 * Read the parameter from registry.
+	 * 
+	 * @param path
+	 *            The path to the registry key.
+	 * @param key
+	 *            The key to do delete.
+	 * @return The queried entry, or null, if entry does not exist.
+	 */
+	public static RegistryEntry<?> read(String path, String key)
+	{
+		return read(path, key, false);
+	}
+	
+	/**
+	 * Read the parameter from registry.
+	 * 
+	 * @param path
+	 *            The path to the registry key.
+	 * @return The queried entry, or null, if entry does not exist.
+	 */
+	public static RegistryEntry<?> readDefault(String path)
+	{
+		return read(path, null, true);
+	}
+	
+	/**
+	 * Read the parameter from registry.
+	 * 
+	 * @param path
+	 *            The path to the registry key.
 	 * @param key
 	 *            The key to do delete.
 	 * @return The queried entry, or null, if entry does not exist.
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static RegistryEntry<?> read(String path, String key)
+	private static RegistryEntry<?> read(String path, String key, boolean defaultValue)
 	{
 		try
 		{
 			// Run reg query, then read output with StreamReader (internal
 			// class)
-			Process process = Runtime.getRuntime().exec("reg query " + '"' + path + "\" /v " + key);
+			Process process = Runtime.getRuntime().exec("reg query " + '"' + path + "\" /v" + (defaultValue ? "e" : " " + key));
 			
 			process.waitFor();
 			
-			InputStream is = process.getInputStream();
-			StringBuilder sw = new StringBuilder();
-			
-			try
-			{
-				int c;
-				while((c = is.read()) != -1)
-					sw.append((char) c);
-			} catch(IOException e)
-			{
-			}
-			
-			String[] output = sw.toString().replaceAll("\r", "").replaceAll("\n", "").split("    ");
+			String[] output = readProcessOutput(process).replaceAll("\r", "").replaceAll("\n", "").split("    ");
 			
 			RegistryType<?> type = RegistryType.valueOf(output[2]);
 			
@@ -156,5 +203,22 @@ public class RegistryManager
 		}
 		
 		return null;
+	}
+	
+	private static String readProcessOutput(Process process)
+	{
+		InputStream is = process.getInputStream();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		
+		try
+		{
+			int c;
+			while((c = is.read()) != -1)
+				baos.write(c);
+		} catch(IOException e)
+		{
+		}
+		
+		return baos.toString();
 	}
 }

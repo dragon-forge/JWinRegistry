@@ -1,10 +1,6 @@
 package com.dragonforge.jwinreg;
 
-import com.dragonforge.jwinreg.RegistryEntry;
-import com.dragonforge.jwinreg.RegistryManager;
-import com.dragonforge.jwinreg.RegistryPath;
-import com.dragonforge.jwinreg.RegistryRoot;
-import com.dragonforge.jwinreg.RegistryType;
+import java.io.File;
 
 public class TestWinRegistry
 {
@@ -17,5 +13,14 @@ public class TestWinRegistry
 		System.out.println(RegistryManager.read(path.toString(), "TestMain"));
 		
 		RegistryManager.deletePath(path.toString());
+		
+		System.out.println(".testtxt -> notepad.exe");
+		RegistryHelper.associateFileExtention(".testtxt", "Notepad++", new File("C:\\Windows\\notepad.exe"), "Text file");
+		
+		System.out.println("notepad://");
+		RegistryHelper.associateURLProtocol("notepad", new File("C:\\Windows\\notepad.exe"), "Notepad Protocol");
+		
+		RegistryHelper.delFileExtention(".testtxt");
+		RegistryHelper.delURLProtocol("notepad");
 	}
 }

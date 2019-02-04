@@ -39,8 +39,6 @@ public class RegistryEntry<T>
 	 * 
 	 * @param path
 	 *            The path to the registry key.
-	 * @param key
-	 *            The key to do operations with.
 	 * @param type
 	 *            The registry entry type.
 	 * @param value
@@ -81,8 +79,6 @@ public class RegistryEntry<T>
 	 * 
 	 * @param path
 	 *            The path to the registry key.
-	 * @param key
-	 *            The key to do operations with.
 	 * @param type
 	 *            The registry entry type.
 	 * @param value

@@ -107,8 +107,10 @@ public class RegistryManager
 				args.add("/t");
 				args.add(entry.type.getId());
 			}
+			if(overwrite)
+				args.add("/f");
 			args.add("/d");
-			args.add("\"" + entry.stringValue() + "\"");
+			args.add("" + entry.stringValue() + "");
 			Process process = new ProcessBuilder(args).start();
 			
 			process.getOutputStream().write((overwrite ? "y\n" : "n\n").getBytes());

@@ -97,12 +97,12 @@ public class RegistryType<T>
 		this.backConverter = backConverter;
 	}
 	
-	T convert(String value)
+	public T convert(String value)
 	{
 		return converter.apply(value);
 	}
 	
-	String backConvert(T val)
+	public String backConvert(T val)
 	{
 		return backConverter.apply(val);
 	}
@@ -115,7 +115,7 @@ public class RegistryType<T>
 		return id;
 	}
 	
-	static RegistryType<?> valueOf(String id)
+	public static RegistryType<?> valueOf(String id)
 	{
 		return TYPES.get(id);
 	}

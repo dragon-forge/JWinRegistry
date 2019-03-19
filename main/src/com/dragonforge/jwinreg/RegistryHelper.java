@@ -27,7 +27,6 @@ public class RegistryHelper
 	{
 		if(!extention.startsWith("."))
 			throw new IllegalArgumentException(extention + " must start with a dot!");
-		@SuppressWarnings("unchecked")
 		RegistryEntry<String> identifier = (RegistryEntry<String>) RegistryManager.readDefault("HKEY_CURRENT_USER\\Software\\Classes\\" + extention);
 		RegistryManager.deletePath("HKEY_CURRENT_USER\\Software\\Classes\\" + extention);
 		if(identifier != null)

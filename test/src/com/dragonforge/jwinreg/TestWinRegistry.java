@@ -1,14 +1,15 @@
 package com.dragonforge.jwinreg;
 
-import java.awt.Desktop;
 import java.io.File;
-import java.io.IOException;
-import java.net.URI;
+
+import com.dragonforge.jwinreg.wrappers.FileRegWrapper;
 
 public class TestWinRegistry
 {
 	public static void main(String[] args)
 	{
+		RegistryManager.init(new FileRegWrapper(new File("test.jwr")));
+		
 		RegistryPath path = new RegistryPath(RegistryRoot.HKEY_CURRENT_USER).append("Software").append("JWinRegistry");
 		
 		RegistryManager.write(new RegistryEntry<>(path, "TestMain", RegistryType.REG_SZ, "This really works!"), true);
@@ -29,15 +30,17 @@ public class TestWinRegistry
 		System.out.println("dview://");
 		RegistryHelper.associateURLProtocol("dview", new File(System.getenv("Appdata"), "Dragon Forge" + File.separator + "Dragon Viewer" + File.separator + "DragonViewer.exe"), "-url \\\"%s\\\"", "DragonViewer Protocol");
 		
-		try
-		{
-			Desktop.getDesktop().browse(URI.create("dview://https://dccg.herokuapp.com/zmc"));
-		} catch(IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try
+//		{
+//			Desktop.getDesktop().browse(URI.create("dview://https://dccg.herokuapp.com/zmc"));
+//		} catch(IOException e)
+//		{
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
-		RegistryHelper.delURLProtocol("dview");
+//		RegistryHelper.delURLProtocol("dview");
+		
+		RegistryManager.cleanup();
 	}
 }

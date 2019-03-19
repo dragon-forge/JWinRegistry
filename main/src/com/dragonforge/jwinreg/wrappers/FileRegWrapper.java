@@ -105,7 +105,7 @@ public class FileRegWrapper implements IRegistryWrapper
 						++entries;
 					}
 				}
-				zos.setComment(String.format(BASE_COMMENT, entries));
+				zos.setComment(String.format(BASE_COMMENT, entries - 1));
 			} catch(IOException ioe)
 			{
 				throw new RuntimeException(ioe);
@@ -162,7 +162,7 @@ public class FileRegWrapper implements IRegistryWrapper
 					zos.closeEntry();
 					++entries;
 				}
-				zos.setComment(String.format(BASE_COMMENT, entries));
+				zos.setComment(String.format(BASE_COMMENT, entries - 1));
 			} catch(IOException ioe)
 			{
 				throw new RuntimeException(ioe);

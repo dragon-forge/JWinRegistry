@@ -39,7 +39,7 @@ public class TestWinRegistry
 //			e.printStackTrace();
 //		}
 		
-//		RegistryHelper.delURLProtocol("dview");
+		RegistryHelper.delURLProtocol("dview");
 		
 		RegistryManager.cleanup();
 	}
